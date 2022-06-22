@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="w-50 mx-auto">
+  <p class="h3 text-center mb-4">ログアウトしますか？？</p>
+  <form method="post">
+    {% csrf_token %}
+    <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
+      <button type="submit" name="cancel" class="btn btn-outline-secondary">やめる</button>
+      <button type="submit" name="logout" class="btn btn-outline-danger">ログアウト</button>
+    </div>
+  </form>
+</div>
+
+{% endblock %}
