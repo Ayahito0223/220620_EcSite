@@ -4,7 +4,8 @@ from allauth.account.forms import SignupForm
 class ProfileForm(forms.Form):
   first_name = forms.CharField(max_length=30, label="名")
   last_name = forms.CharField(max_length=30, label="姓")
-  department = forms.CharField(max_length=30, label='所属', required=False)
+  address = forms.CharField(label='住所', max_length=30, required=False)
+  tel = forms.CharField(label='電話番号', max_length=30, required=False)
 
 class SignupUserForm(SignupForm):
   first_name = forms.CharField(max_length=30, label='名')
