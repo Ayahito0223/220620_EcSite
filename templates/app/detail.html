@@ -2,6 +2,7 @@
 
 {% block content %}
 <div class="w-50 mx-auto">
+  <p class="h3 text-center mb-4">商品詳細</p>
   <ul class="list-group">
     <li class="list-group-item">
       <div class="row">
@@ -28,5 +29,8 @@
       </div>
     </li>
   </ul>
+  <div class="text-center mt-4">
+    <a href="{% url 'additem' item_data.slug %}" class="btn btn-outline-primary">カートに入れる</a>
+  </div>
 </div>
 {% endblock %}

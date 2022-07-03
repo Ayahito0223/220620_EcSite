@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="">
+  <p class="h3 text-center mb-4">ショッピングカート</p>
+  <div class="row">
+    <div class="col-sm-9">
+      <ul class="list-group">
+        {% for order_item in order.items.all %}
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col-sm-9">
+              <p class="h5">{{ order_item.item.code }} {{ order_item.item.prefecture }} {{ order_item.item.city }} {{ order_item.item.area }}</p>
+              <p>価格： {{ order_item.item.price }}円</p>
+            </div>
+            <div class="col-sm-3">
+              <p class="mb-1">数量</p>
+              <p class="mb-1">
+                <a href="#"><span class="badge bg-secondary">-</span></a>
+                {{ order_item.quantity }}
+                <a href="{% url 'additem' order_item.item.slug %}"><span class="badge bg-secondary">+</span></a>
+              </p>
+              <p class="mb-1">
+                <a href="#"><span class="badge bg-danger">削除</span></a>
+              </p>
+            </div>
+          </div>
+        </li>
+        {% empty %}
+        <p>カートは空です</p>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="col-sm-3">
+      <div class="card">
+        <div class="card-body text-center px-2 py3">
+          {% if order.get_total %}
+          <p class="h5 mb-5">小計: <span class="font-weight-bold">{{ order.get_total }}</span>円</p>
+          <div class="mb-3">
+            <a href="" class="btn btn-outline-primary">レジに進む</a>
+          </div>
+          {% endif %}
+          <a href="/" class="btn btn-outline-primary">買い物を続ける</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
