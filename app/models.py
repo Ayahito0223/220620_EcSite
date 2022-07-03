@@ -1,20 +1,19 @@
 from django.db import models
-from django.core.validators import  MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.conf import settings
 import random, string
 import hashlib
 
-def slug_maker():
-  str = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(20))
+def slug_maker(number):
+  str = number.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(19))
   return hashlib.md5(str.encode('utf-8')).hexdigest()
 
 class Item(models.Model):
   """
-  商品の情報に関する事
+  1つの商品の情報
   """
-
   number = models.AutoField(primary_key=True)
-  slug = models.SlugField(max_length=64, unique=True, default=slug_maker)
+  slug = models.SlugField(max_length=64, unique=True, default=slug_maker(str(number)))
   code = models.CharField(max_length=7, null=False)
   pref_reading = models.TextField()
   city_reading = models.TextField()
@@ -23,7 +22,7 @@ class Item(models.Model):
   city = models.TextField()
   area = models.TextField()
   price = models.IntegerField(default=0, validators=[MinValueValidator(0)])
-  quantity = models.IntegerField(default=0, validators=[MinValueValidator(0)])
+  quantity = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(1)])
 
   def __str__(self):
     return self.city
@@ -32,7 +31,6 @@ class OrderItem(models.Model):
   """
   一つの商品のオーダー状況に関する事
   """
-
   user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
   ordered = models.BooleanField(default=False)
   item = models.ForeignKey(Item, on_delete=models.CASCADE)
@@ -49,13 +47,11 @@ class Order(models.Model):
   """
   複数のオーダー状況に関する事
   """
-
   user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
   items = models.ManyToManyField(OrderItem)
   start_date = models.DateTimeField(auto_now_add=True)
   ordered_data = models.DateTimeField()
   ordered = models.BooleanField(default=False)
-
   payment = models.ForeignKey('Payment', on_delete=models.SET_NULL, blank=True, null=True)
 
   def get_total(self):
