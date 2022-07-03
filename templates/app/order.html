@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="">
-  <p class="h3 text-center mb-4">ショッピングカート</p>
+  <p class="h3 text-center mb-5">ショッピングカート</p>
   <div class="row">
     <div class="col-sm-9">
       <ul class="list-group">
@@ -16,18 +16,18 @@
             <div class="col-sm-3">
               <p class="mb-1">数量</p>
               <p class="mb-1">
-                <a href="#"><span class="badge bg-secondary">-</span></a>
+                <a href="{% url 'removesingleitem' order_item.item.slug %}"><span class="badge bg-secondary">-</span></a>
                 {{ order_item.quantity }}
                 <a href="{% url 'additem' order_item.item.slug %}"><span class="badge bg-secondary">+</span></a>
               </p>
               <p class="mb-1">
-                <a href="#"><span class="badge bg-danger">削除</span></a>
+                <a href="{% url 'removeitem' order_item.item.slug %}"><span class="badge bg-danger">削除</span></a>
               </p>
             </div>
           </div>
         </li>
         {% empty %}
-        <p>カートは空です</p>
+        <p class="text-center">カートは空です</p>
         {% endfor %}
       </ul>
     </div>
