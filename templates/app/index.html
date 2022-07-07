@@ -1,16 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="w-50 mx-auto">
-  <ul class="list-group">
-    {% for item in item_data %}
-    <a href="{% url 'detail' item.slug %}" class="list-group-item list-group-item-action">
-      <div class="row">
-        <div class="col-sm-9">{{ item.code }} {{ item.prefecture }}{{ item.city }}{{ item.area }}</div>
-        <div class="col-sm-3">{{ item.price }}円</div>
+<div class="row row-cols-1 row-cols-md-4 g4">
+  {% for item in item_data %}
+  <div class="col">
+    <div class="card h-100">
+      <div class="card-body d-flex flex-column">
+        <h5 class="card-title">{{ item.prefecture }}{{ item.city }}{{ item.area }}</h5>
+        <div class="card-text mt-auto">
+          <p>郵便番号：{{ item.code }}</p>
+          <p class="h4 mb-0 text-danger">{{ item.price }}円</p>
+        </div>
       </div>
-    </a>
-    {% endfor %}
-  </ul>
+      <div class="card-footer">
+        <a href="{% url 'detail' item.slug %}" class="btn btn-outline-secondary d-block">詳しく見る</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
 </div>
 {% endblock %}

@@ -1,36 +1,55 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="w-50 mx-auto">
+<div class="">
   <p class="h3 text-center mb-4">商品詳細</p>
-  <ul class="list-group">
-    <li class="list-group-item">
-      <div class="row">
-        <div class="col-sm-3">郵便番号</div>
-        <div class="col-sm-9">{{ item_data.code }}</div>
+  <div class="row">
+    <div class="col-sm-9">
+      <ul class="list-group">
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col-sm-3">郵便番号</div>
+            <div class="col-sm-9">{{ item_data.code }}</div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col-sm-3">都道府県</div>
+            <div class="col-sm-9">{{ item_data.prefecture }}（{{ item_data.pref_reading }}）</div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col-sm-3">市区町村</div>
+            <div class="col-sm-9">{{ item_data.city }}（{{ item_data.city_reading }}）</div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col-sm-3">町域</div>
+            <div class="col-sm-9">{{ item_data.area }}（{{ item_data.area_reading }}）</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="col-sm-3">
+      <div class="card">
+        <div class="card-body text-center px-2 py3">
+          <p class="h5 mb-4">
+            値段: <span class="font-weight-bold">{{ item_data.price }}</span>円<br>
+          </p>
+          {% if item_data.quantity %}
+          <p class="h5 text-info">在庫あります</p>
+          <div class="mb-3">
+            <a href="{% url 'additem' item_data.slug %}" class="btn btn-outline-primary">カートに入れる</a>
+          </div>
+          {% else %}
+          <p class="h5 text-danger">品切れ！</p>
+          {% endif %}
+          <a href="/" class="btn btn-outline-secondary">戻る</a>
+        </div>
       </div>
-    </li>
-    <li class="list-group-item">
-      <div class="row">
-        <div class="col-sm-3">都道府県</div>
-        <div class="col-sm-9">{{ item_data.prefecture }}</div>
-      </div>
-    </li>
-    <li class="list-group-item">
-      <div class="row">
-        <div class="col-sm-3">市区町村</div>
-        <div class="col-sm-9">{{ item_data.city }}</div>
-      </div>
-    </li>
-    <li class="list-group-item">
-      <div class="row">
-        <div class="col-sm-3">町域</div>
-        <div class="col-sm-9">{{ item_data.area }}</div>
-      </div>
-    </li>
-  </ul>
-  <div class="text-center mt-4">
-    <a href="{% url 'additem' item_data.slug %}" class="btn btn-outline-primary">カートに入れる</a>
+    </div>
   </div>
 </div>
 {% endblock %}
