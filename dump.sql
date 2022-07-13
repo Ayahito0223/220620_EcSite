@@ -361,7 +361,6 @@ ALTER SEQUENCE public.app_orderitem_id_seq OWNED BY public.app_orderitem.id;
 
 CREATE TABLE public.app_payment (
     id bigint NOT NULL,
-    stripe_charge_id character varying(50) NOT NULL,
     amount integer NOT NULL,
     "timestamp" timestamp with time zone NOT NULL,
     user_id bigint
@@ -1009,6 +1008,7 @@ COPY public.app_item (number, slug, code, pref_reading, city_reading, area_readi
 
 COPY public.app_order (id, start_date, ordered_data, ordered, user_id, payment_id) FROM stdin;
 1	2022-07-03 14:37:48.150585+09	2022-07-03 14:37:48.150585+09	f	1	\N
+2	2022-07-13 22:26:44.029666+09	2022-07-13 22:26:44.029666+09	f	2	\N
 \.
 
 
@@ -1018,6 +1018,7 @@ COPY public.app_order (id, start_date, ordered_data, ordered, user_id, payment_i
 
 COPY public.app_order_items (id, order_id, orderitem_id) FROM stdin;
 7	1	7
+8	2	8
 \.
 
 
@@ -1027,6 +1028,7 @@ COPY public.app_order_items (id, order_id, orderitem_id) FROM stdin;
 
 COPY public.app_orderitem (id, ordered, quantity, item_id, user_id) FROM stdin;
 7	f	1	2	1
+8	f	1	2	2
 \.
 
 
@@ -1034,7 +1036,7 @@ COPY public.app_orderitem (id, ordered, quantity, item_id, user_id) FROM stdin;
 -- Data for Name: app_payment; Type: TABLE DATA; Schema: public; Owner: ecsiteadmin
 --
 
-COPY public.app_payment (id, stripe_charge_id, amount, "timestamp", user_id) FROM stdin;
+COPY public.app_payment (id, amount, "timestamp", user_id) FROM stdin;
 \.
 
 
@@ -1209,6 +1211,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 36	app	0007_alter_item_quantity_alter_item_slug	2022-07-03 21:21:32.350939+09
 37	app	0008_alter_item_slug	2022-07-03 21:40:39.863742+09
 38	app	0009_alter_item_slug	2022-07-07 13:38:22.774234+09
+39	app	0010_remove_payment_stripe_charge_id_alter_item_slug	2022-07-13 22:24:23.304438+09
 \.
 
 
@@ -1309,21 +1312,21 @@ SELECT pg_catalog.setval('public.app_item_number_seq', 3, true);
 -- Name: app_order_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ecsiteadmin
 --
 
-SELECT pg_catalog.setval('public.app_order_id_seq', 1, true);
+SELECT pg_catalog.setval('public.app_order_id_seq', 2, true);
 
 
 --
 -- Name: app_order_items_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ecsiteadmin
 --
 
-SELECT pg_catalog.setval('public.app_order_items_id_seq', 7, true);
+SELECT pg_catalog.setval('public.app_order_items_id_seq', 8, true);
 
 
 --
 -- Name: app_orderitem_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ecsiteadmin
 --
 
-SELECT pg_catalog.setval('public.app_orderitem_id_seq', 7, true);
+SELECT pg_catalog.setval('public.app_orderitem_id_seq', 8, true);
 
 
 --
@@ -1372,7 +1375,7 @@ SELECT pg_catalog.setval('public.django_content_type_id_seq', 16, true);
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ecsiteadmin
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 38, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 39, true);
 
 
 --

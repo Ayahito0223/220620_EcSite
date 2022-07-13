@@ -10,9 +10,9 @@ from accounts.models import CustomUser
 
 class IndexView(View):
   def get(self, request, *args, **kwargs):
-    item_data = Item.objects.all()
+    item_data = Item.objects.all()[:50]
     return render(request, 'app/index.html', {
-      'item_data': item_data[:50],
+      'item_data': item_data,
     })
 
 class ItemDetailView(View):
