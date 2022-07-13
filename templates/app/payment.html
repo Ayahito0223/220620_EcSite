@@ -2,7 +2,34 @@
 {% load static %}
 
 {% block content %}
-<div class="w-50 mx-auto">
-  
+<div class="">
+  <p class="h3 text-center mb-5">注文内容の確認</p>
+  <div class="row">
+    <div class="col-sm-9">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">お届け先住所</h5>
+          <p class="card-text">
+            名前：{{ user_data.last_name }} {{ user_data.first_name }}<br>
+            住所：{{ user_data.address }}<br>
+            電話番号：{{ user_data.tel }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="card">
+        <div class="card-body text-center px-2 py3">
+          <p class="h5 mb-5">ご請求金額: <span class="font-weight-bold">{{ order.get_total }}</span>円</p>
+          <div class="mb-3">
+            <a href="{% url 'thanks' %}" class="btn btn-outline-danger">注文を確定する</a>
+          </div>
+          <div class="mb-3">
+            <a href="{% url 'order' %}" class="btn btn-outline-primary">カートに戻る</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

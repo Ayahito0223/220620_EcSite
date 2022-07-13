@@ -58,7 +58,6 @@ class PaymentView(LoginRequiredMixin, View):
     amount = order.get_total()
 
     payment = Payment(user=request.user)
-    payment.stripe_charge_id = 'test_stripe_charge_id'
     payment.amount = amount
     payment.save()
 
@@ -71,6 +70,10 @@ class PaymentView(LoginRequiredMixin, View):
     order.save()
 
     return redirect('thanks')
+
+class ThanksView(LoginRequiredMixin, View):
+  def get(self, request, *args, **kwargs):
+    return render(request, 'app/thanks.html')
 
 @login_required
 def addItem(request, slug):
@@ -128,7 +131,7 @@ def removeItem(request, slug):
 @login_required
 def removeSingleItem(request, slug):
   """
-  商品をカートから商品個数を減らす。
+  商品をカートから個数を減らす。
   """
 
   item = get_object_or_404(Item, slug=slug) #Itemが存在しない場合404を送る
