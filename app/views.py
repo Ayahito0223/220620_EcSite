@@ -5,12 +5,17 @@ from .models import Item, OrderItem, Order, Payment
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
 from accounts.models import CustomUser
 
 class IndexView(View):
   def get(self, request, *args, **kwargs):
-    item_data = Item.objects.all()[:50]
+    all_item_data = Item.objects.order_by('number')
+    paginator = Paginator(all_item_data, 28)
+    p = request.GET.get('p')
+    item_data = paginator.get_page(p)
+
     return render(request, 'app/index.html', {
       'item_data': item_data,
     })

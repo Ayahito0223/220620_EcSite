@@ -4,10 +4,6 @@
   box-sizing: border-box;
 }
 
-body {
-  min-height: 100vh;
-}
-
 @media screen and (max-width: 992px){
   .w-50 {
     width: 100%!important;

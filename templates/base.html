@@ -12,58 +12,63 @@
   <title>EcSite</title>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-      <a class="navbar-brand" href="/">EcSite</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-          </li>
-        </ul>
-        <ul class="navbar-nav mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/">ホーム</a>
-          </li>
-          {% if user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'order' %}">
-              カート
-              <span class="badge rounded-pill bg-primary">
-                {{ request.user|itemCount }}
-              </span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'profile' %}">プロフィール</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'account_logout' %}">ログアウト</a>
-          </li>
-          {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'account_signup' %}">サインアップ</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'account_login' %}">ログイン</a>
-          </li>
-          {% endif %}
-        </ul>
+  <div class="d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container">
+        <a class="navbar-brand" href="/">EcSite</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+              </form>
+            </li>
+          </ul>
+          <ul class="navbar-nav mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/">ホーム</a>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'order' %}">
+                カート
+                <span class="badge rounded-pill bg-primary">
+                  {{ request.user|itemCount }}
+                </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'profile' %}">プロフィール</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'account_logout' %}">ログアウト</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'account_signup' %}">サインアップ</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'account_login' %}">ログイン</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
       </div>
-    </div>
-  </nav>
-  <main class="mt-5">
-    <div class="container">
-      {% block content %}
-      {% endblock %}
-    </div>
-  </main>
+    </nav>
+    <main class="my-5">
+      <div class="container">
+        {% block content %}
+        {% endblock %}
+      </div>
+    </main>
+    <footer class="bg-light py-2 mt-auto">
+      <p class="h5 text-center">EcSite</p>
+    </footer>
+  </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>

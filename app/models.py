@@ -4,16 +4,22 @@ from django.conf import settings
 import random, string
 import hashlib
 
-def slug_maker(number):
-  str = number.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(19))
-  return hashlib.md5(str.encode('utf-8')).hexdigest()
+def slug_maker():
+  repeat = True
+  while repeat:
+    str = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(19))
+    new_slug = hashlib.md5(str.encode('utf-8')).hexdigest()
+    counter = Item.objects.filter(slug=new_slug).count()
+    if counter == 0:
+      repeat = False
+  return new_slug
 
 class Item(models.Model):
   """
   1つの商品の情報
   """
   number = models.AutoField(primary_key=True)
-  slug = models.SlugField(max_length=64, unique=True, default=slug_maker(str(number)))
+  slug = models.SlugField(max_length=64, unique=True, default=slug_maker)
   code = models.CharField(max_length=7, null=False)
   pref_reading = models.TextField()
   city_reading = models.TextField()
