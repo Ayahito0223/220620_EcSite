@@ -85,6 +85,9 @@ def addItem(request, slug):
   """
   商品をカートに追加する。
   """
+  error = {
+    'notItem': False
+  }
 
   item = get_object_or_404(Item, slug=slug) #Itemが存在しない場合404を送る
   order_item, created = OrderItem.objects.get_or_create(
@@ -94,18 +97,24 @@ def addItem(request, slug):
   )
   order = Order.objects.filter(user=request.user, ordered=False)
 
-  if order.exists():
-    order = order[0]
-    if order.items.filter(item__slug=item.slug).exists():
-      order_item.quantity += 1
-      order_item.save()
+  if item.quantity - 1 >= 0:
+    if order.exists():
+      order = order[0]
+      if order.items.filter(item__slug=item.slug).exists():
+        order_item.quantity += 1
+        order_item.save()
+      else:
+        order.items.add(order_item)
+      
     else:
+      order = Order.objects.create(user=request.user, ordered_data=timezone.now())
       order.items.add(order_item)
     
+    item.quantity -= 1
+    item.save()
   else:
-    order = Order.objects.create(user=request.user, ordered_data=timezone.now())
-    order.items.add(order_item)
-  
+    error['notItem'] = True
+
   return redirect('order')
 
 @login_required
@@ -127,6 +136,9 @@ def removeItem(request, slug):
         user=request.user,
         ordered=False
       )[0]
+      
+      item.quantity += order_item.quantity
+      item.save()
       order.items.remove(order_item)
       order_item.delete()
       return redirect('order')
@@ -152,6 +164,8 @@ def removeSingleItem(request, slug):
         user=request.user,
         ordered=False
       )[0]
+      item.quantity += 1
+      item.save()
       if order_item.quantity > 1:
         order_item.quantity -= 1
         order_item.save()
