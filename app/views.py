@@ -8,10 +8,43 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
 from accounts.models import CustomUser
+from django.db.models import Q
+from functools import reduce
+from operator import and_
 
 class IndexView(View):
   def get(self, request, *args, **kwargs):
-    all_item_data = Item.objects.order_by('number')
+    q_word = self.request.GET.get('query')
+
+    if q_word:
+      queryset = Item.objects.all()
+      exclusion = set([' ', '　'])
+      q_list = ''
+
+      for i in q_word:
+        if i in exclusion:
+          pass
+        else: 
+          q_list += i
+      
+      query = reduce(
+        and_, [ 
+          Q(code__icontains=q) |
+          Q(pref_reading__icontains=q) |
+          Q(city_reading__icontains=q) |
+          Q(area_reading__icontains=q) |
+          Q(prefecture__icontains=q) |
+          Q(city__icontains=q) |
+          Q(area__icontains=q)
+          for q in q_list
+        ]
+      )
+
+      all_item_data = queryset.filter(query)
+
+    else:
+      all_item_data = Item.objects.all()
+
     paginator = Paginator(all_item_data, 28)
     p = request.GET.get('p')
     item_data = paginator.get_page(p)

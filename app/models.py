@@ -30,8 +30,11 @@ class Item(models.Model):
   price = models.IntegerField(default=0, validators=[MinValueValidator(0)])
   quantity = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(1)])
 
+  def printCode(self):
+    return f'{self.code[:3]}-{self.code[3:]}'
+
   def __str__(self):
-    return f'code: {self.code}'
+    return self.code
 
 
 class Cart(models.Model):
@@ -48,7 +51,7 @@ class Cart(models.Model):
     return self.quantity * self.item.price
 
   def __str__(self):
-    return f'code: {self.item.code}, quantity: {self.quantity}'
+    return f'user: {self.user}, code: {self.item.code}'
 
 class Order(models.Model):
   """
@@ -60,7 +63,7 @@ class Order(models.Model):
   total_price = models.IntegerField(default=0)
 
   def __str__(self):
-    return f'order_id: {self.order_id}'
+    return self.order_id
 
 class OrderItem(models.Model):
   """
@@ -72,4 +75,4 @@ class OrderItem(models.Model):
   total_price = models.IntegerField()
 
   def __str__(self):
-    return f'order_id: {self.order_id}, item: {self.item}'
+    return self.item
