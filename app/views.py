@@ -1,7 +1,7 @@
 from django import views
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import View
-from .models import Item, OrderItem, Order, Payment
+from .models import Item, Cart, Order, OrderItem
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
@@ -27,51 +27,69 @@ class ItemDetailView(View):
       'item_data': item_data
     })
 
-class OrderView(LoginRequiredMixin, View):
+class CartView(LoginRequiredMixin, View):
   """
   カートの画面
   """
 
   def get(self, request, *args, **kwargs):
     """
-    リクエストが来たら、そのユーザーのOrderを検索してそれを返す。
+    リクエストが来たら、そのユーザーのcartを検索してそれを返す。
     """
 
     try:
-      order = Order.objects.get(user=request.user, ordered=False)
-      context = {
-        'order': order
-      }
-      return render(request, 'app/order.html', context)
-    except ObjectDoesNotExist:
-      return render(request, 'app/order.html')
+      cart = Cart.objects.filter(user=request.user)
 
-class PaymentView(LoginRequiredMixin, View):
+      total_price = 0
+      for cart_item in cart:
+        total_price += cart_item.get_total_item_price()
+
+      context = {
+        'cart': cart,
+        'total_price': total_price
+      }
+      return render(request, 'app/cart.html', context)
+    except ObjectDoesNotExist:
+      return render(request, 'app/cart.html')
+
+class OrderCheckView(LoginRequiredMixin, View):
   def get(self, request, *args, **kwargs):
-    order = Order.objects.get(user=request.user, ordered=False)
+    cart = Cart.objects.filter(user=request.user)
+
+    total_price = 0
+    for cart_item in cart:
+      total_price += cart_item.get_total_item_price()
+
     user_data = CustomUser.objects.get(id=request.user.id)
     context = {
-      'order': order,
+      'total_price': total_price,
       'user_data': user_data
     }
 
-    return render(request, 'app/payment.html', context)
+    return render(request, 'app/ordercheck.html', context)
 
   def post(self, request, *args, **kwargs):
-    order = Order.objects.get(user=request.user, ordered=False)
-    order_items = order.items.all()
-    amount = order.get_total()
+    cart = Cart.objects.filter(user=request.user)
 
-    payment = Payment(user=request.user)
-    payment.amount = amount
-    payment.save()
+    order = Order(
+      user=request.user
+    )
+    order.save()
 
-    order_items.update(ordered=True)
-    for item in order_items:
-      item.save()
+    total_price = 0
+    for cart_item in cart:
+      cart_item_price = cart_item.get_total_item_price()
+      total_price += cart_item_price
+      order_item = OrderItem(
+        order_id = order,
+        item = cart_item.item,
+        quantity = cart_item.quantity,
+        total_price = cart_item_price
+      )
+      order_item.save()
+      cart_item.delete()
 
-    order.ordered = True
-    order.payment = payment
+    order.total_price = total_price
     order.save()
 
     return redirect('thanks')
@@ -90,60 +108,42 @@ def addItem(request, slug):
   }
 
   item = get_object_or_404(Item, slug=slug) #Itemが存在しない場合404を送る
-  order_item, created = OrderItem.objects.get_or_create(
-    item=item,
+  cart_item, created = Cart.objects.get_or_create(
     user=request.user,
-    ordered=False,
+    item=item
   )
-  order = Order.objects.filter(user=request.user, ordered=False)
 
   if item.quantity - 1 >= 0:
-    if order.exists():
-      order = order[0]
-      if order.items.filter(item__slug=item.slug).exists():
-        order_item.quantity += 1
-        order_item.save()
-      else:
-        order.items.add(order_item)
-      
-    else:
-      order = Order.objects.create(user=request.user, ordered_data=timezone.now())
-      order.items.add(order_item)
-    
     item.quantity -= 1
     item.save()
+
+    cart_item.quantity += 1
+    cart_item.save()
   else:
     error['notItem'] = True
 
-  return redirect('order')
+  return redirect('cart')
 
 @login_required
 def removeItem(request, slug):
   """
   商品をカートから削除する。
   """
-
   item = get_object_or_404(Item, slug=slug) #Itemが存在しない場合404を送る
-  order = Order.objects.filter(
+  cart_item = Cart.objects.filter(
     user=request.user,
-    ordered=False,
+    item=item
   )
-  if order.exists():
-    order = order[0]
-    if order.items.filter(item__slug=item.slug).exists():
-      order_item = OrderItem.objects.filter(
-        item=item,
-        user=request.user,
-        ordered=False
-      )[0]
-      
-      item.quantity += order_item.quantity
-      item.save()
-      order.items.remove(order_item)
-      order_item.delete()
-      return redirect('order')
+
+  if cart_item.exists():
+    cart_item = cart_item[0]
+    item.quantity += cart_item.quantity
+    item.save()
+    
+    cart_item.delete()
+    return redirect('cart')
   
-  return redirect('detail', slug=slug)
+  return redirect('cart')
 
 @login_required
 def removeSingleItem(request, slug):
@@ -152,26 +152,23 @@ def removeSingleItem(request, slug):
   """
 
   item = get_object_or_404(Item, slug=slug) #Itemが存在しない場合404を送る
-  order = Order.objects.filter(
+  cart_item = Cart.objects.filter(
     user=request.user,
-    ordered=False,
+    item=item
   )
-  if order.exists():
-    order = order[0]
-    if order.items.filter(item__slug=item.slug).exists():
-      order_item = OrderItem.objects.filter(
-        item=item,
-        user=request.user,
-        ordered=False
-      )[0]
-      item.quantity += 1
-      item.save()
-      if order_item.quantity > 1:
-        order_item.quantity -= 1
-        order_item.save()
-      else:
-        order.items.remove(order_item)
-        order_item.delete()
-      return redirect('order')
+
+  if cart_item.exists():
+    cart_item = cart_item[0]
+
+    item.quantity += 1
+    item.save()
+
+    if cart_item.quantity == 1:
+      cart_item.delete()
+    else:
+      cart_item.quantity -= 1
+      cart_item.save()
+
+    return redirect('cart')
   
-  return redirect('detail', slug=slug)
+  return redirect('cart')

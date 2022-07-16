@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Item, OrderItem, Order, Payment
+from .models import Item, Cart, Order, OrderItem
 from import_export import resources
 from import_export.admin import ImportMixin
 
@@ -17,6 +17,6 @@ class ItemAdmin(ImportMixin, admin.ModelAdmin):
   resource_class = ItemResource
 
 # admin.site.register(Item)
-admin.site.register(OrderItem)
+admin.site.register(Cart)
 admin.site.register(Order)
-admin.site.register(Payment)
+admin.site.register(OrderItem)

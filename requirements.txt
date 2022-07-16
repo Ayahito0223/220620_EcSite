@@ -3,5 +3,4 @@ django-allauth==0.51.0
 django-widget-tweaks==1.4.12
 psycopg2-binary==2.9.3
 python-dotenv==0.20.0
-stripe==3.4.0
 django-import-export==2.8.0

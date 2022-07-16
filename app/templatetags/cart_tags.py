@@ -1,12 +1,12 @@
 from django import template
-from app.models import Order
+from app.models import Cart
 
 register = template.Library()
 
 @register.filter
 def itemCount(user):
   if user.is_authenticated:
-    order = Order.objects.filter(user=user, ordered=False)
-    if order.exists():
-      return order[0].items.count()
+    cart = Cart.objects.filter(user=user)
+    if cart.exists():
+      return cart.count()
   return 0
