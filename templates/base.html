@@ -13,11 +13,11 @@
 </head>
 <body>
   <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="filterSearchModal" tabindex="-1" aria-labelledby="filterSearchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
-      <form class="modal-content" method="get">
+      <form class="modal-content" method="get" action="/">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">条件指定</h5>
+          <h5 class="modal-title" id="filterSearchModalLabel">条件指定</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -363,13 +363,63 @@
           <hr>
           <div class="mb-3">
             <p class="h6">ソートオプション</p>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="sortOption" id="price1-sortOption" value="price">
-              <label class="form-check-label" for="price1-sortOption">値段昇順</label>
+            <div class="row">
+              <div class="col-4 col-lg-2 col-xl-1">値段</div>
+              <div class="col-auto">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="sortOption" id="price-sortOption" value="price">
+                  <label class="form-check-label" for="price1-sortOption">昇順</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="sortOption" id="price-r-sortOption" value="price-r">
+                  <label class="form-check-label" for="price-r-sortOption">降順</label>
+                </div>
+              </div>
             </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="sortOption" id="price2-sortOption" value="-price">
-              <label class="form-check-label" for="price2-sortOption">値段降順</label>
+            <div>
+              <div class="row">
+                <div class="col-4 col-lg-2 col-xl-1">都道府県</div>
+                <div class="col-auto">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="sortOption" id="pref-sortOption" value="pref">
+                    <label class="form-check-label" for="pref-sortOption">昇順</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="sortOption" id="pref-r-sortOption" value="pref-r">
+                    <label class="form-check-label" for="pref-f-sortOption">降順</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="row">
+                <div class="col-4 col-lg-2 col-xl-1">市区町村</div>
+                <div class="col-auto">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="sortOption" id="city-sortOption" value="city">
+                    <label class="form-check-label" for="city-sortOption">昇順</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="sortOption" id="city-r-sortOption" value="city-r">
+                    <label class="form-check-label" for="city-f-sortOption">降順</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="row">
+                <div class="col-4 col-lg-2 col-xl-1">町域</div>
+                <div class="col-auto">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="sortOption" id="area-sortOption" value="area">
+                    <label class="form-check-label" for="area-sortOption">昇順</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="sortOption" id="area-r-sortOption" value="area-r">
+                    <label class="form-check-label" for="area-f-sortOption">降順</label>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -389,15 +439,15 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul class="navbar-nav me-auto my-2 my-lg-0">
             <li class="nav-item">
-              <form class="d-flex" method="get">
+              <form class="d-flex" method="get" action="/">
                 <input class="form-control me-2" name="query" type="search" placeholder="Search" aria-label="Search" value="{{ request.GET.query }}">
                 <button class="btn btn-outline-success" type="submit">Search</button>
               </form>
             </li>
             <li class="nav-item">
-              <a style="cursor: pointer;" class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              <a style="cursor: pointer;" class="nav-link" data-bs-toggle="modal" data-bs-target="#filterSearchModal">
                 条件指定
               </a>
             </li>
@@ -413,6 +463,11 @@
                 <span class="badge rounded-pill bg-primary">
                   {{ request.user|itemCount }}
                 </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'orderhistory' %}">
+                注文履歴
               </a>
             </li>
             <li class="nav-item">

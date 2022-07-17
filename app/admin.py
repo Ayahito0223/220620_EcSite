@@ -25,8 +25,9 @@ class PriceFilter(admin.SimpleListFilter):
   def queryset(self, request, queryset):
     for i in range(100000, 1000001, 100000):
       if self.value() == str(i):
-          return queryset.filter(price__range=(i - 100000 + 1, i))
-    return queryset.filter(price__gte=1000001)
+        return queryset.filter(price__range=(i - 100000 + 1, i))
+      if self.value() == str(1000001):
+        return queryset.filter(price__gte=1000001)
 
 class ItemResource(resources.ModelResource):
   class Meta:
@@ -37,7 +38,7 @@ class ItemResource(resources.ModelResource):
 @admin.register(Item)
 class ItemAdmin(ImportMixin, admin.ModelAdmin):
   search_fields = ['code', 'pref_reading', 'city_reading', 'area_reading', 'prefecture', 'city', 'area']
-  list_filter = ('prefecture', PriceFilter)
+  list_filter = ['prefecture', PriceFilter]
 
   from_encoding= 'shift_jis'
   list_display = ('number', 'slug', 'code', 'pref_reading', 'city_reading', 'area_reading', 'prefecture', 'city', 'area', 'price', 'quantity')

@@ -23,7 +23,6 @@ class IndexView(View):
     price_word = self.request.GET.getlist('price')
     sortOption_word = self.request.GET.get('sortOption')
 
-
     if free_word:
       queryset = Item.objects.all()
       q_list = free_word.split()
@@ -102,8 +101,23 @@ class IndexView(View):
         if sortOption_word:
           if sortOption_word == 'price':
             sortOption = 'price'
-          elif sortOption_word == '-price':
+          elif sortOption_word == 'price-r':
             sortOption = '-price'
+
+          elif sortOption_word == 'pref':
+            sortOption = 'pref_reading'
+          elif sortOption_word == 'pref-r':
+            sortOption = '-pref_reading'
+
+          elif sortOption_word == 'city':
+            sortOption = 'city_reading'
+          elif sortOption_word == 'city-r':
+            sortOption = '-city_reading'
+          
+          elif sortOption_word == 'area':
+            sortOption = 'area_reading'
+          elif sortOption_word == 'area-r':
+            sortOption = '-area_reading'
 
         if sortOption != '':
           all_item_data = all_item_data.order_by(sortOption)
@@ -160,6 +174,27 @@ class CartView(LoginRequiredMixin, View):
       return render(request, 'app/cart.html', context)
     except ObjectDoesNotExist:
       return render(request, 'app/cart.html')
+
+class OrderHistoryView(LoginRequiredMixin, View):
+  def get(self, request, *args, **kwargs):
+    
+    orders = Order.objects.filter(user=request.user).order_by('-ordered_data')
+    order_history = []
+
+    for order in orders:
+      order_items = OrderItem.objects.filter(order_id=order.order_id)
+
+      item = {
+        'order': order,
+        'order_items': order_items,
+      }
+      order_history.append(item)
+
+    context = {
+      'order_history': order_history
+    }
+
+    return render(request, 'app/orderhistory.html', context)
 
 class OrderCheckView(LoginRequiredMixin, View):
   def get(self, request, *args, **kwargs):
