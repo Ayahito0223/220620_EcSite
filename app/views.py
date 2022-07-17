@@ -18,14 +18,7 @@ class IndexView(View):
 
     if q_word:
       queryset = Item.objects.all()
-      exclusion = set([' ', '　'])
-      q_list = ''
-
-      for i in q_word:
-        if i in exclusion:
-          pass
-        else: 
-          q_list += i
+      q_list = q_word.split()
       
       query = reduce(
         and_, [ 

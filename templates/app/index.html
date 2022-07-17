@@ -28,15 +28,15 @@
 <div class="mt-5">
   <ul class="pagination justify-content-center">
     <li class="page-item">
-      <a class="page-link" href="?p=1"><<</a>
+      <a class="page-link" href="?p=1&query={{ request.GET.query }}"><<</a>
     </li>
 
     {% if item_data.has_previous %}
     <li class="page-item">
-      <a class="page-link" href="?p={{ item_data.previous_page_number }}">前へ</a>
+      <a class="page-link" href="?p={{ item_data.previous_page_number }}&query={{ request.GET.query }}">前へ</a>
     </li>
     <li class="page-item">
-      <a class="page-link" href="?p={{ item_data.previous_page_number }}">{{ item_data.previous_page_number }}</a>
+      <a class="page-link" href="?p={{ item_data.previous_page_number }}&query={{ request.GET.query }}">{{ item_data.previous_page_number }}</a>
     </li>
     {% else %}
     <li class="page-item disabled">
@@ -50,10 +50,10 @@
 
     {% if item_data.has_next %}
     <li class="page-item">
-      <a class="page-link" href="?p={{ item_data.next_page_number }}">{{ item_data.next_page_number }}</a>
+      <a class="page-link" href="?p={{ item_data.next_page_number }}&query={{ request.GET.query }}">{{ item_data.next_page_number }}</a>
     </li>
     <li class="page-item">
-      <a class="page-link" href="?p={{ item_data.next_page_number }}">次へ</a>
+      <a class="page-link" href="?p={{ item_data.next_page_number }}&query={{ request.GET.query }}">次へ</a>
     </li>
     {% else %}
     <li class="page-item disabled">
@@ -62,7 +62,7 @@
     {% endif %}
     
     <li class="page-item">
-      <a class="page-link" href="?p={{ item_data.paginator.num_pages }}">>></a>
+      <a class="page-link" href="?p={{ item_data.paginator.num_pages }}&query={{ request.GET.query }}">>></a>
     </li>
   </ul>
   <p class="small text-center">{{ item_data.number }} / {{ item_data.paginator.num_pages }}</p>
