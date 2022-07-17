@@ -28,7 +28,7 @@ class Item(models.Model):
   city = models.TextField()
   area = models.TextField()
   price = models.IntegerField(default=0, validators=[MinValueValidator(0)])
-  quantity = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(1)])
+  quantity = models.IntegerField(default=0, validators=[MinValueValidator(0)])
 
   def printCode(self):
     return f'{self.code[:3]}-{self.code[3:]}'
