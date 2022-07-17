@@ -10,15 +10,23 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from accounts.models import CustomUser
 from django.db.models import Q
 from functools import reduce
-from operator import and_
+from operator import and_, or_
 
 class IndexView(View):
   def get(self, request, *args, **kwargs):
-    q_word = self.request.GET.get('query')
+    free_word = self.request.GET.get('query')
+    searchOption_word = self.request.GET.get('searchOption')
+    code_word = self.request.GET.get('code')
+    prefecture_word = self.request.GET.getlist('prefecture')
+    city_word = self.request.GET.get('city')
+    area_word = self.request.GET.get('area')
+    price_word = self.request.GET.getlist('price')
+    sortOption_word = self.request.GET.get('sortOption')
 
-    if q_word:
+
+    if free_word:
       queryset = Item.objects.all()
-      q_list = q_word.split()
+      q_list = free_word.split()
       
       query = reduce(
         and_, [ 
@@ -36,14 +44,89 @@ class IndexView(View):
       all_item_data = queryset.filter(query)
 
     else:
-      all_item_data = Item.objects.all()
+      if searchOption_word:
+        queryset = Item.objects.all()
+        queryList = []
+
+        if code_word:
+          if code_word != '':
+            queryList.append(Q(code__icontains = code_word))
+        
+        if prefecture_word:
+          pref_queryList = []
+          for pref in prefecture_word:
+            pref_queryList.append(Q(prefecture__icontains=pref))
+
+          if len(pref_queryList) != 0:
+            queryList.append(reduce(or_, pref_queryList))
+        
+        if city_word:
+          if city_word != '':
+            queryList.append(Q(city__icontains = city_word))
+        
+        if area_word:
+          if area_word != '':
+            queryList.append(Q(area__icontains = area_word))
+
+        if price_word:
+          price_queryList = []
+          for pri in price_word:
+            for i in range(100000, 1000001, 100000):
+              if pri == str(i):
+                price_queryList.append(Q(price__range=(i - 100000 + 1, i)))
+              if pri == str(1000001):
+                price_queryList.append(Q(price__gte=1000001))
+
+          if len(price_queryList) != 0:
+            queryList.append(reduce(or_, price_queryList))
+
+        if len(queryList) != 0:
+          if searchOption_word == 'or':
+            query = reduce(
+              or_, queryList
+            )
+            
+          else:
+            query = reduce(
+              and_, queryList
+            )
+          
+          
+          all_item_data = queryset.filter(query)
+
+        else:
+          all_item_data = Item.objects.all()
+        
+
+        sortOption = ''
+        if sortOption_word:
+          if sortOption_word == 'price':
+            sortOption = 'price'
+          elif sortOption_word == '-price':
+            sortOption = '-price'
+
+        if sortOption != '':
+          all_item_data = all_item_data.order_by(sortOption)
+
+      else:
+        all_item_data = Item.objects.all()
 
     paginator = Paginator(all_item_data, 28)
     p = request.GET.get('p')
     item_data = paginator.get_page(p)
 
+    # パラメータ生成
+    url_param = ''
+    for q in self.request.GET:
+      if q == 'p':
+        continue
+      if len(self.request.GET.get(q)) == 0:
+        continue
+      url_param += '&' + q + '=' + self.request.GET.get(q)
+
     return render(request, 'app/index.html', {
       'item_data': item_data,
+      'url_param': url_param,
     })
 
 class ItemDetailView(View):

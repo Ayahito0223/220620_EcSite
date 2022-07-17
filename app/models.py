@@ -36,6 +36,9 @@ class Item(models.Model):
   def __str__(self):
     return self.code
 
+  class Meta:
+    db_table = 'ecsite_item'
+    verbose_name = verbose_name_plural = '商品'
 
 class Cart(models.Model):
   """
@@ -53,6 +56,10 @@ class Cart(models.Model):
   def __str__(self):
     return f'user: {self.user}, code: {self.item.code}'
 
+  class Meta:
+    db_table = 'ecsite_cart'
+    verbose_name = verbose_name_plural = 'カート'
+
 class Order(models.Model):
   """
   注文明細
@@ -63,7 +70,11 @@ class Order(models.Model):
   total_price = models.IntegerField(default=0)
 
   def __str__(self):
-    return self.order_id
+    return str(self.order_id)
+  
+  class Meta:
+    db_table = 'ecsite_order'
+    verbose_name = verbose_name_plural = '注文明細'
 
 class OrderItem(models.Model):
   """
@@ -75,4 +86,8 @@ class OrderItem(models.Model):
   total_price = models.IntegerField()
 
   def __str__(self):
-    return self.item
+    return f'order_id: {self.order_id}, code: {self.item.code}'
+  
+  class Meta:
+    db_table = 'ecsite_order_item'
+    verbose_name = verbose_name_plural = '注文商品'

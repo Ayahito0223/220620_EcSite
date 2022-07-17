@@ -12,6 +12,375 @@
   <title>EcSite</title>
 </head>
 <body>
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <form class="modal-content" method="get">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">条件指定</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="accordion accordion-flush" id="accordionFilterSearch">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="accordionFilterSearch-headingCode">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordionFilterSearch-collapseCode" aria-expanded="false" aria-controls="accordionFilterSearch-collapseCode">
+                  郵便番号
+                </button>
+              </h2>
+              <div id="accordionFilterSearch-collapseCode" class="accordion-collapse collapse" aria-labelledby="accordionFilterSearch-headingCode">
+                <div class="accordion-body">
+                  <input class="form-control me-2" name="code" type="search" placeholder="郵便番号" aria-label="Search" maxlength="7" pattern="[0-9]*">
+                  <p class="small mt-1 mb-0">例）100-1000 → 1001000</p>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="accordionFilterSearch-headingPrefecture">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordionFilterSearch-collapsePrefecture" aria-expanded="false" aria-controls="accordionFilterSearch-collapsePrefecture">
+                  都道府県
+                </button>
+              </h2>
+              <div id="accordionFilterSearch-collapsePrefecture" class="accordion-collapse collapse" aria-labelledby="accordionFilterSearch-headingPrefecture">
+                <div class="accordion-body">
+                  <div class="mb-3">
+                    <p class="h6">北海道</p>
+                    <hr>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="hokkaido" name="prefecture" value="北海道">
+                      <label class="form-check-label" for="hokkaido">北海道</label>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <p class="h6">東北</p>
+                    <hr>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="aomori" name="prefecture" value="青森県">
+                      <label class="form-check-label" for="aomori">青森県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="iwate" name="prefecture" value="岩手県">
+                      <label class="form-check-label" for="iwate">岩手県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="akita" name="prefecture" value="秋田県">
+                      <label class="form-check-label" for="akita">秋田県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="miyagi" name="prefecture" value="宮城県">
+                      <label class="form-check-label" for="miyagi">宮城県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="yamagata" name="prefecture" value="山形県">
+                      <label class="form-check-label" for="yamagata">山形県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="fukushima" name="prefecture" value="福島県">
+                      <label class="form-check-label" for="fukushima">福島県</label>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <p class="h6">関東</p>
+                    <hr>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="ibara" name="prefecture" value="茨城県">
+                      <label class="form-check-label" for="ibaraki">茨城県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="tochigi" name="prefecture" value="栃木県">
+                      <label class="form-check-label" for="tochigi">栃木県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="gunma" name="prefecture" value="群馬県">
+                      <label class="form-check-label" for="gunma">群馬県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="saitama" name="prefecture" value="埼玉県">
+                      <label class="form-check-label" for="saitama">埼玉県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="chiba" name="prefecture" value="千葉県">
+                      <label class="form-check-label" for="chiba">千葉県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="tokyo" name="prefecture" value="東京都">
+                      <label class="form-check-label" for="tokyo">東京都</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="kanagawa" name="prefecture" value="神奈川県">
+                      <label class="form-check-label" for="kanagawa">神奈川県</label>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <p class="h6">中部</p>
+                    <hr>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="niigata" name="prefecture" value="新潟県">
+                      <label class="form-check-label" for="niigata">新潟県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="toyama" name="prefecture" value="富山県">
+                      <label class="form-check-label" for="toyama">富山県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="ishikawa" name="prefecture" value="石川県">
+                      <label class="form-check-label" for="ishikawa">石川県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="fukui" name="prefecture" value="福井県">
+                      <label class="form-check-label" for="fukui">福井県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="yamanashi" name="prefecture" value="山梨県">
+                      <label class="form-check-label" for="yamanashi">山梨県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="nagano" name="prefecture" value="長野県">
+                      <label class="form-check-label" for="nagano">長野県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="gifu" name="prefecture" value="岐阜県">
+                      <label class="form-check-label" for="gifu">岐阜県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="shizuoka" name="prefecture" value="静岡県">
+                      <label class="form-check-label" for="shizuoka">静岡県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="aichi" name="prefecture" value="愛知県">
+                      <label class="form-check-label" for="aichi">愛知県</label>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <p class="h6">近畿</p>
+                    <hr>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="mie" name="prefecture" value="三重県">
+                      <label class="form-check-label" for="mie">三重県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="shiga" name="prefecture" value="滋賀県">
+                      <label class="form-check-label" for="shiga">滋賀県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="kyoto" name="prefecture" value="京都府">
+                      <label class="form-check-label" for="kyoto">京都府</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="osaka" name="prefecture" value="大阪府">
+                      <label class="form-check-label" for="osaka">大阪府</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="hyogo" name="prefecture" value="兵庫県">
+                      <label class="form-check-label" for="hyogo">兵庫県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="nara" name="prefecture" value="奈良県">
+                      <label class="form-check-label" for="nara">奈良県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="wakayama" name="prefecture" value="和歌山県">
+                      <label class="form-check-label" for="wakayama">和歌山県</label>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <p class="h6">中国</p>
+                    <hr>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="tottori" name="prefecture" value="鳥取県">
+                      <label class="form-check-label" for="tottori">鳥取県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="shimane" name="prefecture" value="島根県">
+                      <label class="form-check-label" for="shimane">島根県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="okayama" name="prefecture" value="岡山県">
+                      <label class="form-check-label" for="okayama">岡山県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="hiroshima" name="prefecture" value="広島県">
+                      <label class="form-check-label" for="hiroshima">広島県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="yamaguchi" name="prefecture" value="山口県">
+                      <label class="form-check-label" for="yamaguchi">山口県</label>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <p class="h6">四国</p>
+                    <hr>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="tokushima" name="prefecture" value="徳島県">
+                      <label class="form-check-label" for="tokushima">徳島県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="kagawa" name="prefecture" value="香川県">
+                      <label class="form-check-label" for="kagawa">香川県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="rhime" name="prefecture" value="愛媛県">
+                      <label class="form-check-label" for="rhime">愛媛県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="kochi" name="prefecture" value="高知県">
+                      <label class="form-check-label" for="kochi">高知県</label>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <p class="h6">九州、沖縄</p>
+                    <hr>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="fukuoka" name="prefecture" value="福岡県">
+                      <label class="form-check-label" for="fukuoka">福岡県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="saga" name="prefecture" value="佐賀県">
+                      <label class="form-check-label" for="saga">佐賀県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="nagasaki" name="prefecture" value="長崎県">
+                      <label class="form-check-label" for="nagasaki">長崎県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="kumamoto" name="prefecture" value="熊本県">
+                      <label class="form-check-label" for="kumamoto">熊本県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="oita" name="prefecture" value="大分県">
+                      <label class="form-check-label" for="oita">大分県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="miyazaki" name="prefecture" value="宮崎県">
+                      <label class="form-check-label" for="miyazaki">宮崎県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="kagoshima" name="prefecture" value="鹿児島県">
+                      <label class="form-check-label" for="kagoshima">鹿児島県</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="okinawa" name="prefecture" value="沖縄県">
+                      <label class="form-check-label" for="okinawa">沖縄県</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="accordionFilterSearch-headingCity">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordionFilterSearch-collapseCity" aria-expanded="false" aria-controls="accordionFilterSearch-collapseCity">
+                  市区町村
+                </button>
+              </h2>
+              <div id="accordionFilterSearch-collapseCity" class="accordion-collapse collapse" aria-labelledby="accordionFilterSearch-headingCity">
+                <div class="accordion-body">
+                  <input class="form-control me-2" name="city" type="search" placeholder="市区町村" aria-label="Search">
+                  <p class="small mt-1 mb-0">例）横浜市</p>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="accordionFilterSearch-headingArea">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordionFilterSearch-collapseArea" aria-expanded="false" aria-controls="accordionFilterSearch-collapseArea">
+                  町域
+                </button>
+              </h2>
+              <div id="accordionFilterSearch-collapseArea" class="accordion-collapse collapse" aria-labelledby="accordionFilterSearch-headingArea">
+                <div class="accordion-body">
+                  <input class="form-control me-2" name="area" type="search" placeholder="町域" aria-label="Search">
+                  <p class="small mt-1 mb-0">例）中十条</p>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="accordionFilterSearch-headingPrice">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordionFilterSearch-collapsePrice" aria-expanded="false" aria-controls="accordionFilterSearch-collapsePrice">
+                  価格
+                </button>
+              </h2>
+              <div id="accordionFilterSearch-collapsePrice" class="accordion-collapse collapse" aria-labelledby="accordionFilterSearch-headingPrice">
+                <div class="accordion-body">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="price" id="price-100000" value="100000">
+                    <label class="form-check-label" for="price-100000">1-100,000</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="price" id="price-200000" value="200000">
+                    <label class="form-check-label" for="price-200000">100,001-200,000</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="price" id="price-300000" value="300000">
+                    <label class="form-check-label" for="price-300000">200,001-300,000</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="price" id="price-400000" value="400000">
+                    <label class="form-check-label" for="price-400000">300,001-400,000</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="price" id="price-500000" value="500000">
+                    <label class="form-check-label" for="price-500000">400,001-500,000</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="price" id="price-060000" value="600000">
+                    <label class="form-check-label" for="price-600000">500,001-600,000</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="price" id="price-700000" value="700000">
+                    <label class="form-check-label" for="price-700000">600,001-700,000</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="price" id="price-800000" value="800000">
+                    <label class="form-check-label" for="price-800000">700,001-800,000</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="price" id="price-900000" value="900000">
+                    <label class="form-check-label" for="price-900000">800,001-900,000</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="price" id="price-1000000" value="1000000">
+                    <label class="form-check-label" for="price-1000000">900,001-1,000,000</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="price" id="price-1000001" value="1000001">
+                    <label class="form-check-label" for="price-1000001">1,000,001-</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="mb-3">
+            <p class="h6">検索オプション</p>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="searchOption" id="orSearchRadio" value="or">
+              <label class="form-check-label" for="orSearchRadio">OR検索</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="searchOption" id="andSearchRadio" value="and" checked >
+              <label class="form-check-label" for="andSearchRadio">AND検索</label>
+            </div>
+          </div>
+          <hr>
+          <div class="mb-3">
+            <p class="h6">ソートオプション</p>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="sortOption" id="price1-sortOption" value="price">
+              <label class="form-check-label" for="price1-sortOption">値段昇順</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="sortOption" id="price2-sortOption" value="-price">
+              <label class="form-check-label" for="price2-sortOption">値段降順</label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+          <button type="submit" class="btn btn-primary">検索</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <div class="d-flex flex-column min-vh-100">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container">
@@ -26,6 +395,11 @@
                 <input class="form-control me-2" name="query" type="search" placeholder="Search" aria-label="Search" value="{{ request.GET.query }}">
                 <button class="btn btn-outline-success" type="submit">Search</button>
               </form>
+            </li>
+            <li class="nav-item">
+              <a style="cursor: pointer;" class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                条件指定
+              </a>
             </li>
           </ul>
           <ul class="navbar-nav mb-2 mb-lg-0">
