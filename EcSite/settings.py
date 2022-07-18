@@ -90,7 +90,12 @@ WSGI_APPLICATION = 'EcSite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.environ['DATABASES_ENGINE'],
+        # ↓ sqlite3で動かす場合 ↓
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
+
+        # ↓ postgresで動かす場合 ↓
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.environ['DATABASES_NAME'],
         'USER': os.environ['DATABASES_USER'],
         'PASSWORD': os.environ['DATABASES_PASSWORD'],
