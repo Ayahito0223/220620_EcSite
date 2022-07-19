@@ -129,7 +129,7 @@ headerの検索欄は、任意の文字列での検索に対応している。�
     DjangoのデフォルトのデータベースであるSQLiteとPostgreSQLの2つを使用できる。<br>
     EcSiteフォルダの中のsettings.pyの91行目からのコメントを修正して変更する。
 
-    ```{#lst:id python caption="Ec/Site/settings.py:91"}
+    ```
     DATABASES = {
       'default': {
           # ↓ sqlite3で動かす場合 ↓
@@ -150,7 +150,7 @@ headerの検索欄は、任意の文字列での検索に対応している。�
     - PostgreSQLを使用する場合<br>
         `.env`ファイルを準備する
 
-        ```.env
+        ```
         DATABASES_NAME="220620_EcSite"
         DATABASES_USER="ecsiteadmin"
         DATABASES_PASSWORD="hogehoge"
