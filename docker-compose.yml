@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  db:
+    build:
+      context: .
+      dockerfile: ./docker/postgres/Dockerfile
+    container_name: EcSite-postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=ecsiteadmin
+      - POSTGRES_PASSWORD=hogehoge
+      - POSTGRES_DB=EcSite
+    volumes:
+      - ./docker/postgres/init/init.sql:/docker-entrypoint-initdb.d/1_init.sql
+      - ./docker/postgres/init/ecsite_dump.sql:/docker-entrypoint-initdb.d/2_ecsite_dump.sql
+    restart: always
+
+  web:
+    tty: true
+    build: 
+      context: .
+      dockerfile: ./docker/python/Dockerfile
+    container_name: EcSite-python
+    volumes:
+      - .:/code
+    ports:
+      - 8888:8888
+    depends_on:
+      - db
